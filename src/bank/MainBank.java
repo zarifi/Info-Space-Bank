@@ -1,7 +1,10 @@
+package bank;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Stack;
 
 
 public class MainBank {
@@ -33,7 +36,9 @@ public class MainBank {
 					if (clientList.containsKey(userName))
 						System.out.println("\nUser "+userName+" already exists.\n");
 					else {
-						clientList.put(userName, new Client(userName));
+						System.out.println("\nEnter the amount of money to be deposited:\n");
+						double firstDeposit = in.nextDouble();
+						clientList.put(userName, new Client(userName,firstDeposit));
 					}
 					break;
 					
@@ -80,7 +85,6 @@ public class MainBank {
 									System.out.println("\nEnter the amount to be deposited (and enter):\n");
 									double amountDeposit = in.nextDouble();
 									user.myWallet.deposit(user.myWallet.myAccount,amountDeposit);
-									System.out.println("\nUser "+selectUser+" balance after deposit is: "+"$"+user.myWallet.getBalance()+"\n");
 									//System.out.println("$"+user.myWallet.getBalance());
 									break;
 									
@@ -88,7 +92,7 @@ public class MainBank {
 									System.out.println("\nEnter the amount to be withdrawn (and enter):\n");
 									double amountWithdraw = in.nextDouble();
 									user.myWallet.withdraw(user.myWallet.myAccount, amountWithdraw);
-									System.out.println("\nUser "+selectUser+" balance after withdraw is: "+"$"+user.myWallet.getBalance()+"\n");
+									//System.out.println("\nUser "+selectUser+" balance after withdraw is: "+"$"+user.myWallet.getBalance()+"\n");
 									//System.out.println("$"+user.myWallet.getBalance());
 									break;
 									
@@ -96,12 +100,20 @@ public class MainBank {
 									System.out.println("\nEnter the user name that you want to transfer money to its account (and enter):\n");
 									String toUserName = in.next();
 									Client toUser = clientList.get(toUserName);
-									System.out.println("\nEnter the amount to be transferred (and enter):\n");
-									double amountTransfer = in.nextDouble();
-									user.myWallet.transfer(user.myWallet.myAccount, toUser.myWallet.myAccount, amountTransfer);
-									
-									System.out.println("\nUser "+selectUser+" balance after transfer is: "+"$"+user.myWallet.getBalance()+"\n");
-									//System.out.println("$"+user.myWallet.getBalance());									
+									if (toUser == null)
+									{
+										System.out.println("/nUser "+toUserName+" does not exist!");	
+									}
+									else
+									{
+										System.out.println("\nEnter the amount to be transferred (and enter):\n");
+										double amountTransfer = in.nextDouble();
+										user.myWallet.transfer(user.myWallet.myAccount, toUser.myWallet.myAccount, amountTransfer);
+										System.out.println("\nUser "+selectUser+" balance after transfer is: "+"$"+user.myWallet.getBalance()+"\n");
+										//System.out.println("$"+user.myWallet.getBalance());		
+									}
+
+																
 									break;
 									
 								case 4:
@@ -110,8 +122,12 @@ public class MainBank {
 									
 								case 5:
 									System.out.println("\nList of past 100 transactions:\n\n");
-									user.myWallet.getHistory(user.myWallet.myAccount);
+									Stack<String> list = user.myWallet.getHistory();
+									for (int i = list.size() - 1;i >= 0 ;i--){
+										System.out.println(list.elementAt(i));
+									}
 									break;
+								
 								
 								case 0:
 									backToMainMenu = true;
