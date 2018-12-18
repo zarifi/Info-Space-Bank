@@ -11,9 +11,13 @@ package exceptions;
 
 public class NullUserException extends RuntimeException{
 	
+	/**
+	 * Auto generated serial Version UID
+	 */
+	private static final long serialVersionUID = -1648475327994729183L;
+
 	public NullUserException(String message){
 		super(message);
 		
 	}
-
 }

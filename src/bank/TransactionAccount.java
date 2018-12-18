@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Stack;
 
 import exceptions.InsufficientFundCheckedException;
-import exceptions.InsufficientFundException;
+import exceptions.NullUserCheckedException;
 import exceptions.NullUserException;
 
 
@@ -68,14 +68,17 @@ public class TransactionAccount extends Account {
 	}
 	
 	//
-	public void transfer(TransactionAccount from, TransactionAccount to, double amount) throws InsufficientFundCheckedException{
+	public void transfer(TransactionAccount from, TransactionAccount to, double amount) throws InsufficientFundCheckedException, NullUserCheckedException{
+		if (to == null){
+			throw new NullUserCheckedException("Recipient user does not exist!");
+		}
 		double currentBalanceFrom = from.getBalance();
 		double currentBalanceTo = to.getBalance();
 		if (currentBalanceFrom <= amount){
 			throw new InsufficientFundCheckedException("Current balance is less than requested amount to tarnsfer");
 		}
 		else
-		{			
+		{	
 			setBalance(from,currentBalanceFrom - amount);
 			setBalance(to,currentBalanceTo + amount);
 			//System.out.println(from.getBalance());
@@ -89,7 +92,7 @@ public class TransactionAccount extends Account {
 		Stack<String> list = new Stack<String>();
 		for (int i = 0;i < this.historyList.size();i++){
 			TransactionData current = this.historyList.elementAt(i);
-			System.out.println(current.amount);
+			//System.out.println(current.amount);
 			//System.out.println("Time: "+current.time + "  Type: "+ current.type+ "  Amount: "+current.amount);
 			list.push("Time: "+current.time + "  Type: "+ current.type+ "  Amount: $"+current.amount);
 		}

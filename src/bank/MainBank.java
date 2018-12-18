@@ -91,7 +91,12 @@ public class MainBank {
 								case 2:
 									System.out.println("\nEnter the amount to be withdrawn (and enter):\n");
 									double amountWithdraw = in.nextDouble();
-									user.myWallet.withdraw(user.myWallet.myAccount, amountWithdraw);
+									try{
+										user.myWallet.withdraw(user.myWallet.myAccount, amountWithdraw);
+									}
+									catch(Exception e){
+										System.out.println(e.getMessage());
+									}
 									//System.out.println("\nUser "+selectUser+" balance after withdraw is: "+"$"+user.myWallet.getBalance()+"\n");
 									//System.out.println("$"+user.myWallet.getBalance());
 									break;
@@ -102,18 +107,22 @@ public class MainBank {
 									Client toUser = clientList.get(toUserName);
 									if (toUser == null)
 									{
-										System.out.println("/nUser "+toUserName+" does not exist!");	
+										System.out.println("User "+toUserName+" does not exist!");
 									}
 									else
 									{
 										System.out.println("\nEnter the amount to be transferred (and enter):\n");
 										double amountTransfer = in.nextDouble();
-										user.myWallet.transfer(user.myWallet.myAccount, toUser.myWallet.myAccount, amountTransfer);
-										System.out.println("\nUser "+selectUser+" balance after transfer is: "+"$"+user.myWallet.getBalance()+"\n");
-										//System.out.println("$"+user.myWallet.getBalance());		
-									}
-
-																
+										try
+										{
+											user.myWallet.transfer(user.myWallet.myAccount, null, amountTransfer);
+											System.out.println("\nUser "+selectUser+" balance after transfer is: "+"$"+user.myWallet.getBalance()+"\n");
+										}
+										catch(Exception e) {
+											System.out.println(e.getMessage());
+										}
+										//System.out.println("$"+user.myWallet.getBalance());
+									}							
 									break;
 									
 								case 4:
@@ -121,11 +130,14 @@ public class MainBank {
 									break;
 									
 								case 5:
-									System.out.println("\nList of past 100 transactions:\n\n");
+									System.out.println("\nList of past 100 latest transactions:\n\n");
 									Stack<String> list = user.myWallet.getHistory();
+									int j  = 1;
 									for (int i = list.size() - 1;i >= 0 ;i--){
-										System.out.println(list.elementAt(i));
+										System.out.println(j+") "+list.elementAt(i));
+										j++;
 									}
+									System.out.println("");
 									break;
 								
 								

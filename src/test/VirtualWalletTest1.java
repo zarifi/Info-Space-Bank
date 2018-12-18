@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class VirtualWalletTest {
+public class VirtualWalletTest1 {
 
 	VirtualWallet testWallet;
 	@Before
@@ -20,8 +20,9 @@ public class VirtualWalletTest {
 
 	@Test
 	public void testDeposit() {
+		testWallet.deposit(testWallet.myAccount, 150);
 		double currentBalance = testWallet.getBalance();
-		assertEquals(100, currentBalance,0.1);
+		assertEquals(250, currentBalance,0.1);
 	}
 
 	@Test

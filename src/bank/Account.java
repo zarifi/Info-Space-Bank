@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import exceptions.InsufficientFundCheckedException;
 import exceptions.InsufficientFundException;
+import exceptions.NullUserCheckedException;
 import exceptions.NullUserException;
 
 
@@ -26,7 +27,7 @@ public abstract class Account {
 	
 	//public void setBalance(double account){}
 	
-	public void transfer(Account from, Account to, double amount) throws InsufficientFundCheckedException {}
+	public void transfer(Account from, Account to, double amount) throws InsufficientFundCheckedException, NullUserCheckedException {}
 	
 	public Stack<String> getHistory(Account account){
 		Stack<String> st = new Stack<String>();
