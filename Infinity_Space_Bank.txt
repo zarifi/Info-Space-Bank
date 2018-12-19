@@ -1,0 +1,112 @@
+Infinity Space Bank
+
+This program can be used to create different users (clients) of a bank and each user would have access to one Virtual Wallet(VW). 
+User(client) can use VW to create Transaction Account(s) and perform following transactions on each account:
+	- deposit
+	- withdraw
+	- transfer
+	- get banalnce
+	- add transaction account
+	- get transaction history for each account
+
+
+How to Use:
+1) Navigate to directory /src
+2) Run the command "javac bank/MainBank.java"
+3) Run the command "java bank/MainBank"
+
+The program user interface is the terminal (tested on Mac OS). After running the MainBank the user would see the following menu:
+
+----------------- 
+
+####### Welcom to Infinity Space Bank #######
+
+## Select among the following options:## 
+
+	1. Create a Virtual Wallet for user
+	2. List all clients (users)
+	3. Select User
+	0. Exit
+
+------------------
+
+Each option is described below:
+
+1: can create a new Virtual Wallet to interact with. Each VW is associated with one user. By selecting option 1, user has to
+enter the UNIQUE username and enter and then specify the initial deposit to the first new account.
+
+2: Displays all created users in the bank
+
+3: You can select user in order to get access to his/her VW and corresponding accounts
+
+0: exit the program and all information regarding users and their accounts would be wipped.
+
+
+When selecting option 3 user would be prompted to enter the unique username (if entered incorrectly, program prompts user to try again).
+Then user would be asked to enter the account number that he/she needs to access to. Account numbers are in order of their creation and
+starts from 1. After creating VW for user the first Transaction Account is created and get assigned number 1.
+
+If all above information entered correctly user would see the following menu:
+
+-------------------
+	1. Deposit
+	2. Withdraw
+	3. Transfer
+	4. Get Balance
+	5. Transaction History
+	6. Switch Account
+	7. Add Transaction Account
+	8. List All Accounts Balance
+	0. Go back to Main Menu
+---------------------
+
+We are now in the selected user account. By choosing each option user can interact with his/her currently selected account:
+
+1: by choosing option 1 and then enter, user would be asked to provide the amount to be deposited in the current account, when user enter the amount
+and enter the transaction is completed and stored in the histoy transaction list.
+
+2: user can withdraw money from the current account, if the withdrawl results in the $0 or negative balance the program would stop 
+the transaction and propmt user with approperiate message.
+
+3: user would be asked to provide the recipient username and then its account number, in case that either of those entered incorrectly program
+would output warning message and prompts user to try again.
+
+
+4: get the balance of the current account
+
+5: displays the list of transaction history for current account
+
+6: user can switch to another account (the account must exist),if user input incorrect account # to switch to the program would select the
+default account (account # 1 which was created as first user account).
+
+7: user can add a new Transaction Account and set its initial balance. The account number for the newly created account would n+1 where
+n is the account number for the latest created account.
+
+8: this option would list all accounts and their balance for current user
+
+0: go back to previous menu (the manin menu where you can create/select user)
+
+
+
+
+Testing:
+
+In order to run the test cases for this program navigate to directory /src and run the follwoing commands:
+
+1) javac -cp test/junit-4.12.jar test/*.java bank/*.java exceptions/*.java
+2) java -cp test/junit-4.12.jar:test/hamcrest-core-1.3.jar:. org.junit.runner.JUnitCore test.AllTests
+3) java -cp test/junit-4.12.jar:test/hamcrest-core-1.3.jar:. org.junit.runner.JUnitCore test.VirtualWalletClassParallel
+
+Command # 2 runs the test suite that includes the test classes: VirtualWalletTest1, VirtualWalletTest2, VirtualWalletExceptionTest
+Command # 3 runs the test case VirtualWalletClassParallel which is for concurrency testing of the program
+
+
+
+
+
+
+
+
+
+
+
