@@ -16,9 +16,9 @@ import exceptions.NullUserException;
 public abstract class Account {
 	public double balance;
 	
-	public void deposit(Account account, double amount){}
+	public void deposit(double amount){}
 	
-	public void withdraw(Account account, double amount) throws InsufficientFundCheckedException
+	public void withdraw(double amount) throws InsufficientFundCheckedException
 	{}
 	
 	public double getBalance(){
@@ -27,7 +27,7 @@ public abstract class Account {
 	
 	//public void setBalance(double account){}
 	
-	public void transfer(Account from, Account to, double amount) throws InsufficientFundCheckedException, NullUserCheckedException {}
+	public void transfer(Account to, double amount) throws InsufficientFundCheckedException, NullUserCheckedException {}
 	
 	public Stack<String> getHistory(Account account){
 		Stack<String> st = new Stack<String>();

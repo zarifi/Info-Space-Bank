@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import bank.TransactionAccount;
 import bank.VirtualWallet;
 import exceptions.InsufficientFundException;
 import exceptions.NullUserException;
@@ -19,23 +20,27 @@ public class VirtualWalletExceptionTest {
 
 	@Test(expected = InsufficientFundException.class)
 	public void testWithdraw_zero_balance() throws Exception{
-		testWallet.withdraw(testWallet.myAccount, 100);
+		TransactionAccount currentAccount = testWallet.getAccount(1);
+		testWallet.withdraw(currentAccount, 100);
 	}
 	
 	@Test(expected = InsufficientFundException.class)
 	public void testWithdraw_negative_balance() throws Exception{
-		testWallet.withdraw(testWallet.myAccount, 150);
+		TransactionAccount currentAccount = testWallet.getAccount(1);
+		testWallet.withdraw(currentAccount, 150);
 	}
 	
 	@Test (expected = InsufficientFundException.class)
 	public void testTransfer() throws Exception{
+		TransactionAccount currentAccount = testWallet.getAccount(1);
 		VirtualWallet testWallet2 = new VirtualWallet(200);
-		testWallet.transfer(testWallet.myAccount, testWallet2.myAccount, 150);
+		testWallet.transfer(currentAccount, testWallet2.getAccount(1), 150);
 	}
 	
 	@Test (expected = NullUserException.class)
 	public void testTransfer_null_recipient() throws Exception{
-		testWallet.transfer(testWallet.myAccount, null, 150);
+		TransactionAccount currentAccount = testWallet.getAccount(1);
+		testWallet.transfer(currentAccount, null, 150);
 	}
 
 }

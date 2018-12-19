@@ -36,24 +36,24 @@ public class TransactionAccount extends Account {
 	}
 	
 	// Deposit "amount" to account. It stores the transaction information in transaction history list 
-	public void deposit(TransactionAccount account, double amount){
-		double currentBalance = account.getBalance();
-		setBalance(account,amount + currentBalance);
+	public void deposit(double amount){
+		double currentBalance = this.getBalance();
+		setBalance(this,amount + currentBalance);
 		//System.out.println(amount + currentBalance);
 		this.time = new Timestamp(System.currentTimeMillis());
 		addToHistoryList(this.time, "Deposit", amount);	
 	}
 	
 	// Withdraw "amount" from account. This method prevents any withdraw if withdraw results into $0 balance or negative balance
-	public void withdraw(TransactionAccount account, double amount) throws InsufficientFundCheckedException{
-		double currentBalance = account.getBalance();
+	public void withdraw(double amount) throws InsufficientFundCheckedException{
+		double currentBalance = this.getBalance();
 		if (currentBalance <= amount)
 		{
 			throw new InsufficientFundCheckedException("Current balance is less than requested amount to withdraw");
 		}
 		else
 		{
-			setBalance(account, currentBalance - amount);
+			setBalance(this, currentBalance - amount);
 			//System.out.println(currentBalance);
 			//System.out.println(currentBalance - amount);
 			this.time = new Timestamp(System.currentTimeMillis());
@@ -67,19 +67,19 @@ public class TransactionAccount extends Account {
 		return this.balance;
 	}
 	
-	//
-	public void transfer(TransactionAccount from, TransactionAccount to, double amount) throws InsufficientFundCheckedException, NullUserCheckedException{
+	// Transfer money from specified source to recipeint user account
+	public void transfer(TransactionAccount to, double amount) throws InsufficientFundCheckedException, NullUserCheckedException{
 		if (to == null){
 			throw new NullUserCheckedException("Recipient user does not exist!");
 		}
-		double currentBalanceFrom = from.getBalance();
+		double currentBalanceFrom = this.getBalance();
 		double currentBalanceTo = to.getBalance();
 		if (currentBalanceFrom <= amount){
 			throw new InsufficientFundCheckedException("Current balance is less than requested amount to tarnsfer");
 		}
 		else
 		{	
-			setBalance(from,currentBalanceFrom - amount);
+			setBalance(this,currentBalanceFrom - amount);
 			setBalance(to,currentBalanceTo + amount);
 			//System.out.println(from.getBalance());
 			this.time = new Timestamp(System.currentTimeMillis());

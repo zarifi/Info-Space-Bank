@@ -1,6 +1,8 @@
 package bank;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import exceptions.InsufficientFundCheckedException;
@@ -11,23 +13,31 @@ import exceptions.NullUserException;
 
 public class VirtualWallet {
 	
-	public TransactionAccount myAccount;
+	//list of all TransactionAccounts;
+	public List<TransactionAccount> accounts; 
 	
-	public VirtualWallet(double amount){
-		this.myAccount = new TransactionAccount(amount);
+	public VirtualWallet(double initialBalance){
+		accounts = new ArrayList<TransactionAccount>();
+		accounts.add(new TransactionAccount(initialBalance));
+		//this.myAccount = new TransactionAccount(initialBalance);
 	}
 	
+	// add a new Transaction Account to current Virtual Wallet
+	public void addAccount(double initialBalance){
+		accounts.add(new TransactionAccount(initialBalance));
+	}
+	
+	//deposit the amount to selected account
 	public void deposit(TransactionAccount account, double amount){
-		myAccount.deposit(account, amount);
-		System.out.println("\nUser balance after deposit is: "+"$"+this.getBalance()+"\n");
+		account.deposit(amount);
+		System.out.println("\nUser balance after deposit is: "+"$"+account.getBalance()+"\n");
 
 	}
-	
+	// Withdraw money from account, checks for $0 withdraw and non sufficient funcd exception
 	public void withdraw(TransactionAccount account, double amount){
-
 		try{
-			myAccount.withdraw(account, amount);
-			System.out.println("\nUser balance after withdraw is: "+"$"+this.getBalance()+"\n");
+			account.withdraw(amount);
+			System.out.println("\nUser balance after withdraw is: "+"$"+account.getBalance()+"\n");
 
 		}
 		catch(InsufficientFundCheckedException error){
@@ -36,13 +46,14 @@ public class VirtualWallet {
 		}
 	}
 	
-	public double getBalance(){
-		return myAccount.getBalance();
+	// return the balance of the account
+	public double getBalance(TransactionAccount account){
+		return account.getBalance();
 	}
-	
-	public void transfer(TransactionAccount from, TransactionAccount to, double amount){
+	// Transfer money from one account to another and checks for any transaction violation (exceeding withdraw,...)
+	public void transfer(TransactionAccount from,TransactionAccount to, double amount){
 		try{
-			myAccount.transfer(from, to, amount);
+			from.transfer(to, amount);
 		}
 		catch(InsufficientFundCheckedException error){
 			throw new InsufficientFundException("\n"+error.getMessage()+"\n");
@@ -53,7 +64,13 @@ public class VirtualWallet {
 		}
 	}
 	
-	public Stack<String> getHistory(){
-		return myAccount.getHistory();
+	// Return the history transaction in forms of Stack
+	public Stack<String> getHistory(TransactionAccount account){
+		return account.getHistory();
+	}
+	
+	// Returns the Transaction Account provided its number
+	public TransactionAccount getAccount(int accountNumber){
+		return accounts.get(accountNumber-1);
 	}
 }

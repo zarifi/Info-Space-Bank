@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Stack;
 
+import bank.TransactionAccount;
 import bank.VirtualWallet;
 
 import org.junit.Assert;
@@ -20,36 +21,47 @@ public class VirtualWalletTest1 {
 
 	@Test
 	public void testDeposit() {
-		testWallet.deposit(testWallet.myAccount, 150);
-		double currentBalance = testWallet.getBalance();
+		TransactionAccount currentAccount = testWallet.getAccount(1);
+		testWallet.deposit(currentAccount,150);
+		double currentBalance = testWallet.getBalance(currentAccount);
 		assertEquals(250, currentBalance,0.1);
 	}
 
 	@Test
 	public void testWithdraw() {
-		testWallet.withdraw(testWallet.myAccount, 10);
-		assertEquals(90,testWallet.getBalance(),0.1);
+		TransactionAccount currentAccount = testWallet.getAccount(1);
+		try{
+			testWallet.withdraw(currentAccount,10);	
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+		}
+		assertEquals(90,currentAccount.getBalance(),0.1);
 	}
 
 	@Test
 	public void testGetBalance() {
-		assertEquals(100,testWallet.getBalance(),0.1);
+		TransactionAccount currentAccount = testWallet.getAccount(1);
+		assertEquals(100,currentAccount.getBalance(),0.1);
 	}
 
 	@Test
 	public void testTransfer() {
+		TransactionAccount currentAccount = testWallet.getAccount(1);
 		VirtualWallet testWallet2 = new VirtualWallet(0);
-		testWallet.transfer(testWallet.myAccount, testWallet2.myAccount,30);
-		assertEquals(70, testWallet.getBalance(),0.1);
-		assertEquals(30,testWallet2.getBalance(),0.1);
+		testWallet.transfer(currentAccount, testWallet2.getAccount(1),30);
+		assertEquals(70, currentAccount.getBalance(),0.1);
+		assertEquals(30,testWallet2.getAccount(1).getBalance(),0.1);
 	}
 
 	@Test
 	public void testGetHistory() {
-		testWallet.deposit(testWallet.myAccount, 30);
-		testWallet.withdraw(testWallet.myAccount, 10);
-		testWallet.deposit(testWallet.myAccount, 10);
-		Stack<String> testList = testWallet.getHistory();
+		TransactionAccount currentAccount = testWallet.getAccount(1);
+		testWallet.deposit(currentAccount, 30);
+		testWallet.withdraw(currentAccount, 10);
+		testWallet.deposit(currentAccount, 10);
+		Stack<String> testList = testWallet.getHistory(currentAccount);
 		
 		String firstTransaction = testList.elementAt(0);
 		System.out.println(firstTransaction);
